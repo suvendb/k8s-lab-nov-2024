@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apache2
+  labels:
+    mycka: simplilearn
+spec:
+ containers:
+   - name: mycontainer
+     image: docker.io/httpd
+     ports:
+      - containerPort: 80
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: myservice
+spec:
+  selector:
+    mycka: simplilearn
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 80
+

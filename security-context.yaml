@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-1
+spec:
+  securityContext:  # Setting security context for the entire Pod
+    runAsUser: 1000  # Specifies the UID for the user to run the container as
+    runAsGroup: 3000  # Specifies the GID for the group to run the container as
+    fsGroup: 2000  # Specifies the GID for the group that owns the Pod's volumes
+  volumes:
+    - name: sec-ctx-vol  # Defines a volume named sec-ctx-vol
+      emptyDir: {}  # Specifies an empty directory volume
+  containers:
+    - name: sec-ctx-demo  # Defines a container named sec-ctx-demo
+      image: busybox:1.28  # Specifies the Docker image to use for the container
+      command: [ "sh", "-c", "sleep 1h" ]  # Specifies the command to run in the container
+      volumeMounts:
+        - name: sec-ctx-vol  # Specifies the volume to mount
+          mountPath: /data/demo  # Specifies the path within the container to mount the volume
+      securityContext:  # Setting security context for the container
+        allowPrivilegeEscalation: false  # Disables privilege escalation for the container

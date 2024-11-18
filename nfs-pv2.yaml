@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs2-pv-volume
+  labels:
+    app: wordpress
+spec:
+  capacity:
+   storage: 10Gi
+  accessModes:
+  - ReadWriteMany
+  nfs:
+   server: 172.24.126.4 
+   path: "/mydbdata"

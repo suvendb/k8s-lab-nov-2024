@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-dep
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      env: tomcat
+  template:
+    metadata:
+      name: tomcat-pod
+      labels:
+        env: tomcat
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: tomcat
+        image:  19781507/tomcat-new2:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-svc
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30008
+  selector:
+    env: tomcat
+  type: NodePort
